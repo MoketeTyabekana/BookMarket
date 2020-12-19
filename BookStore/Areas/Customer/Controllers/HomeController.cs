@@ -5,15 +5,24 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using BookStore.Models;
+using BookStore.Data;
+using Microsoft.EntityFrameworkCore;
 
 namespace BookStore.Controllers
 {
     [Area("Customer")]
     public class HomeController : Controller
     {
+        private ApplicationDbContext _db;
+        public HomeController(ApplicationDbContext db)
+        {
+            _db = db;
+        }
+
         public IActionResult Index()
         {
-            return View();
+
+            return View(_db.Books.Include(c=>c.ProductTypes).Include(c=>c.SpecialTagName).ToList());
         }
 
         public IActionResult About()

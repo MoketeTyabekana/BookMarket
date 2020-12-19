@@ -8,6 +8,8 @@
   <ItemGroup>
     <Compile Remove="Data\Migrations\20201217095524_addSpecialTableIntoDatabase.cs" />
     <Compile Remove="Data\Migrations\20201217095524_addSpecialTableIntoDatabase.Designer.cs" />
+    <Compile Remove="Data\Migrations\20201218154017_Price.cs" />
+    <Compile Remove="Data\Migrations\20201218154017_Price.Designer.cs" />
   </ItemGroup>
 
   <ItemGroup>
