@@ -7,6 +7,8 @@ using Microsoft.AspNetCore.Mvc;
 using BookStore.Models;
 using BookStore.Data;
 using Microsoft.EntityFrameworkCore;
+using BookStore.Utility;
+using X.PagedList;
 
 namespace BookStore.Controllers
 {
@@ -19,10 +21,10 @@ namespace BookStore.Controllers
             _db = db;
         }
 
-        public IActionResult Index()
+        public IActionResult Index(int? page)
         {
 
-            return View(_db.Books.Include(c=>c.ProductTypes).Include(c=>c.SpecialTagName).ToList());
+            return View(_db.Books.Include(c=>c.ProductTypes).Include(c=>c.SpecialTagName).ToList().ToPagedList(page??1,9));
         }
 
         public IActionResult About()
@@ -49,5 +51,94 @@ namespace BookStore.Controllers
         {
             return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
         }
+
+        //Get Book Detail Action Method
+        public ActionResult Details(int? id)
+        {
+            if (id == null)
+            {
+                return NotFound();
+            }
+            var book = _db.Books.Include(c => c.ProductTypes).Include(c => c.SpecialTagName)
+                .FirstOrDefault(c => c.Id == id);
+            if (book == null)
+            {
+                return NotFound();
+            }
+            return View(book);
+        }
+
+        //POST Book Detail Action Method
+        [HttpPost]
+        [ActionName("Details")]
+        public ActionResult BookDetails(int? id)
+        {
+            List<Books> books = new List<Books>();
+            if (id == null)
+            {
+                return NotFound();
+            }
+            var book = _db.Books.Include(c => c.ProductTypes).Include(c => c.SpecialTagName)
+                .FirstOrDefault(c => c.Id == id);
+            if (book == null)
+            {
+                return NotFound();
+            }
+            books = HttpContext.Session.Get<List<Books>>("books");
+            if (books == null)
+            {
+                books = new List<Books>();
+            }
+            books.Add(book);
+            HttpContext.Session.Set("books", books);
+            return RedirectToAction(nameof(Index));
+        }
+
+        [HttpPost]
+        public IActionResult Remove(int? id)
+        {
+            List<Books> books = HttpContext.Session.Get<List<Books>>("books");
+            if (books != null)
+            {
+                var book = books.FirstOrDefault(c => c.Id == id);
+                if (book != null)
+                {
+                    books.Remove(book);
+                    HttpContext.Session.Set("books", books);
+                }
+            }
+
+            return RedirectToAction(nameof(Index));
+        }
+        
+        //Get Remove Action Method
+        [ActionName("Remove")]
+        public IActionResult RemoveFromCart(int? id)
+        {
+            List<Books> books = HttpContext.Session.Get<List<Books>>("books");
+            if (books != null)
+            {
+                var book = books.FirstOrDefault(c => c.Id == id);
+                if (book != null)
+                {
+                    books.Remove(book);
+                    HttpContext.Session.Set("books", books);
+                }
+            }
+
+            return RedirectToAction(nameof(Cart));
+        }
+
+        //Get Cart Action Method
+        public IActionResult Cart()
+        {
+            List<Books> books = HttpContext.Session.Get<List<Books>>("books");
+            if (books == null)
+            {
+                books = new List<Books>();
+            }
+            return View(books);
+        }
+
     }
 }

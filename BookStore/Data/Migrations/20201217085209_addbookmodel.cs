@@ -33,7 +33,7 @@ namespace BookStore.Data.Migrations
                     Description = table.Column<string>(nullable: false),
                     YearPublished = table.Column<string>(nullable: false),
                     Price = table.Column<decimal>(nullable: false),
-                    Image = table.Column<string>(nullable: false),
+                    Image = table.Column<string>(nullable: true),
                     Condition = table.Column<string>(nullable: false),
                     IsAvailable = table.Column<bool>(nullable: false),
                     ProductTypeId = table.Column<int>(nullable: false),

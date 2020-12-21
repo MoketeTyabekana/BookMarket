@@ -17,5 +17,7 @@ namespace BookStore.Data
         public DbSet<ProductTypes> ProductTypes { get; set; }
         public DbSet<SpecialTagNames> SpecialTagNames { get; set; }
         public DbSet<Books> Books { get; set; }
+        public DbSet<Order> Orders { get; set; }
+        public DbSet<OrderDetails> OrderDetails { get; set; }
     }
 }

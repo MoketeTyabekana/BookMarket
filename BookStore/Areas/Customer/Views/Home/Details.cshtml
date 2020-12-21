@@ -1,13 +1,29 @@
 ﻿
 
+
 @model BookStore.Models.Books
 @{
-    ViewData["Title"] = "Edit";
+    ViewData["Title"] = "Details";
+}
+@using BookStore.Utility
+@using Microsoft.AspNetCore.Http
+@inject IHttpContextAccessor HttpContextAccessor
+
+@{
+
+    List<Books> books = HttpContextAccessor.HttpContext.Session.Get<List<Books>>("books");
+    Books book = null;
+    if (books != null)
+    {
+        book = books.FirstOrDefault(c => c.Id == Model.Id);
+
+    }
+
 }
 <br />
 
-<h2 class="text-info">Edit Book</h2>
-<form asp-action="Edit" method="post" enctype="multipart/form-data">
+<h2 class="text-info">Book Details</h2>
+<form asp-action="Details" method="post" enctype="multipart/form-data">
     <div class="p-4 rounded border row">
         <div asp-validation-summary="ModelOnly" class="text-danger">
 
@@ -19,7 +35,7 @@
                 </div>
                 <div class="col-8">
                     <input type="hidden" asp-for="Id" />
-                    <input asp-for="Title" class="form-control" />
+                    <input asp-for="Title" readonly="readonly" class="form-control" />
                 </div>
                 <span asp-validation-for="Title" class="text-danger"></span>
             </div>
@@ -28,7 +44,7 @@
                     <label asp-for="Author"></label>
                 </div>
                 <div class="col-8">
-                    <input asp-for="Author" class="form-control" />
+                    <input asp-for="Author" readonly="readonly" class="form-control" />
                 </div>
                 <span asp-validation-for="Author" class="text-danger"></span>
             </div>
@@ -37,7 +53,7 @@
                     <label asp-for="ISBN"></label>
                 </div>
                 <div class="col-8">
-                    <input asp-for="ISBN" class="form-control" />
+                    <input asp-for="ISBN" readonly="readonly" class="form-control" />
                 </div>
                 <span asp-validation-for="ISBN" class="text-danger"></span>
             </div>
@@ -46,7 +62,7 @@
                     <label asp-for="Edition"></label>
                 </div>
                 <div class="col-8">
-                    <input asp-for="Edition" class="form-control" />
+                    <input asp-for="Edition" readonly="readonly" class="form-control" />
                 </div>
                 <span asp-validation-for="Edition" class="text-danger"></span>
             </div>
@@ -55,7 +71,7 @@
                     <label asp-for="Description"></label>
                 </div>
                 <div class="col-8">
-                    <input asp-for="Description" class="form-control" />
+                    <input asp-for="Description" readonly="readonly" class="form-control" />
                 </div>
                 <span asp-validation-for="Description" class="text-danger"></span>
             </div>
@@ -64,7 +80,7 @@
                     <label asp-for="YearPublished"></label>
                 </div>
                 <div class="col-8">
-                    <input asp-for="YearPublished" class="form-control" />
+                    <input asp-for="YearPublished" readonly="readonly" class="form-control" />
                 </div>
                 <span asp-validation-for="YearPublished" class="text-danger"></span>
             </div>
@@ -73,62 +89,54 @@
                     <label asp-for="Price"></label>
                 </div>
                 <div class="col-8">
-                    <input asp-for="Price" class="form-control" />
+                    <input asp-for="Price" readonly="readonly" class="form-control" />
                 </div>
                 <span asp-validation-for="Price" class="text-danger"></span>
             </div>
-            <div class="form-group row">
-                <div class="col-4">
-                    <label asp-for="Image"></label>
-                </div>
-                <div class="col-8">
-                    <input asp-for="Image" class="form-control" type="file" />
-                </div>
-                <span asp-validation-for="Image" class="text-danger"></span>
-            </div>
+            @*<div class="form-group row">
+                    <div class="col-4">
+                        <label asp-for="Image"></label>
+                    </div>
+                    <div class="col-8">
+                        <input asp-for="Image" readonly="readonly" class="form-control" type="file" />
+                    </div>
+                    <span asp-validation-for="Image" class="text-danger"></span>
+                </div>*@
 
             <div class="form-group row">
                 <div class="col-4">
                     <label asp-for="Condition"></label>
                 </div>
                 <div class="col-8">
-                    <textarea asp-for="Condition" class="form-control"></textarea>
+                    <textarea asp-for="Condition" readonly="readonly" class="form-control"></textarea>
                 </div>
                 <span asp-validation-for="Condition" class="text-danger"></span>
             </div>
-            <div class="form-group row">
-                <div class="col-4">
-                    <label asp-for="IsAvailable"></label>
-                </div>
-                <div class="col-8">
-                    <input asp-for="IsAvailable" class="" type="checkbox" />
-                </div>
-                <span asp-validation-for="IsAvailable" class="text-danger"></span>
-            </div>
+
             <div class="form-group row">
                 <div class="col-4">
                     <label asp-for="ProductTypeId"></label>
                 </div>
                 <div class="col-8">
-                    <select asp-for="ProductTypeId" asp-items="ViewBag.productTypeId" class="form-control"></select>
+                    @*<select asp-for="ProductTypeId" readonly="readonly" asp-items="ViewBag.productTypeId" class="form-control"></select>*@
+                    <input asp-for="ProductTypeId" readonly="readonly" class="form-control" />
                     @*<input asp-for="ProductTypeId" class="form-control" />*@
                 </div>
                 <span asp-validation-for="ProductTypeId" class="text-danger"></span>
             </div>
-            <div class="form-group row">
-                <div class="col-4">
-                    <label asp-for="SpecialTagId"></label>
-                </div>
-                <div class="col-8">
-                    <select asp-for="SpecialTagId" asp-items="ViewBag.SpecialTagId" class="form-control"></select>
-                    @*<input asp-for="SpecialTagId" class="form-control" />*@
-                </div>
-                <span asp-validation-for="SpecialTagId" class="text-danger"></span>
-            </div>
+
 
 
             <div class="form-group">
-                <input type="submit" class="btn btn-primary" value="Update" />
+                @if (book != null)
+                {
+                    <button type="submit" class="btn btn-danger" asp-action="Remove" asp-route-id="@Model.Id">Remove from Cart</button>
+                }
+                else
+                {
+                    <input type="submit" class="btn btn-info" value="Add to Cart" />
+                }
+
                 <a asp-action="Index" class="btn btn-success">Back to List</a>
             </div>
 
@@ -136,7 +144,17 @@
         </div>
         <div class="col-1">
             <div class="col-3">
-                <img src="~/@Model.Image" width="350" height="600" style="border-radius: 5px; border: 1px solid #efefef" />
+                <img src="~/@Model.Image" width="350" height="500" style="border-radius: 5px; border: 1px solid #efefef" />
+                @if (Model.IsAvailable)
+                {
+                    <img src="~/images/instock-logo.png" width="350" height="70" />
+
+                }
+                else
+                {
+                    <img src="~/images/notinstock.jpg" width="50" height="200" />
+                }
+
             </div>
         </div>
 
@@ -153,21 +171,21 @@
     }
     <script>
 
-    $.validator.methods.range = function (value, element, param) {
-        var globalizedValue = value.replace(",", ".");
-        return this.optional(element) || (globalizedValue >= param[0] && globalizedValue <= param[1]);
-    }
+        $.validator.methods.range = function (value, element, param) {
+            var globalizedValue = value.replace(",", ".");
+            return this.optional(element) || (globalizedValue >= param[0] && globalizedValue <= param[1]);
+        }
 
-    $.validator.methods.number = function (value, element) {
-        return this.optional(element) || /-?(?:\d+|\d{1,3}(?:[\s\.,]\d{3})+)(?:[\.,]\d+)?$/.test(value);
-    }
-    //Date dd/MM/yyyy
-    $.validator.methods.date = function (value, element) {
-        var date = value.split("/");
-        return this.optional(element) || !/Invalid|NaN/.test(new Date(date[2], date[1], date[0]).toString());
-    }
+        $.validator.methods.number = function (value, element) {
+            return this.optional(element) || /-?(?:\d+|\d{1,3}(?:[\s\.,]\d{3})+)(?:[\.,]\d+)?$/.test(value);
+        }
+
+
     </script>
+
 }
+
+
 
 
 

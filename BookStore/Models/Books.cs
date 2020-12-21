@@ -35,10 +35,10 @@ namespace BookStore.Models
         [Display(Name = "Publish Year")]
         public string YearPublished { get; set; }
 
-        [Required]
+        
        
         [Display(Name = "Price")]
-        [DataType(DataType.Currency)]
+        
 
         public decimal Price { get; set; }
 
