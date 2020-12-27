@@ -1,17 +1,73 @@
-﻿@{
+﻿
+@model BookStore.Models.Contact
+@{
     ViewData["Title"] = "Contact";
 }
-<h2>@ViewData["Title"]</h2>
-<h3>@ViewData["Message"]</h3>
+<br />
 
-<address>
-    One Microsoft Way<br />
-    Redmond, WA 98052-6399<br />
-    <abbr title="Phone">P:</abbr>
-    425.555.0100
-</address>
+<h2 class="text-info">Contact Us,We Would Love To Hear From You.</h2>
+<form asp-action="Create" method="post" enctype="multipart/form-data">
+    <div class="p-4 rounded border">
+        <div asp-validation-summary="ModelOnly" class="text-danger">
 
-<address>
-    <strong>Support:</strong> <a href="mailto:Support@example.com">Support@example.com</a><br />
-    <strong>Marketing:</strong> <a href="mailto:Marketing@example.com">Marketing@example.com</a>
-</address>
+        </div>
+        <h3>@ViewBag.message</h3>
+      
+        <div class="form-group row">
+            <div class="col-lg-2">
+                <label asp-for="Name"></label>
+            </div>
+            <div class="col-lg-5">
+                <input asp-for="Name" class="form-control" />
+            </div>
+            <span asp-validation-for="Name" class="text-danger"></span>
+        </div>
+
+        <div class="form-group row">
+            <div class="col-lg-2">
+                <label asp-for="Email"></label>
+            </div>
+            <div class="col-lg-5">
+                <input asp-for="Email" class="form-control" />
+            </div>
+            <span asp-validation-for="Email" class="text-danger"></span>
+        </div>
+
+        <div class="form-group row">
+            <div class="col-lg-2">
+                <label asp-for="Subject"></label>
+            </div>
+            <div class="col-lg-5">
+                <input asp-for="Subject" class="form-control" />
+            </div>
+            <span asp-validation-for="Subject" class="text-danger"></span>
+        </div>
+
+        <div class="form-group row">
+            <div class="col-lg-2">
+                <label asp-for="Message"></label>
+            </div>
+            <div class="col-lg-5">
+                <input asp-for="Message" class="form-control" />
+            </div>
+            <span asp-validation-for="Message" class="text-danger"></span>
+        </div>
+
+        <div class="form-group">
+            <input type="submit" class="btn btn-primary" value="Sent" />
+            @*<a asp-action="Index" class="btn btn-success">Back to List</a>*@
+        </div>
+    </div>
+
+</form>
+
+@section Scripts{
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+}
+
+
+
+
+
+
